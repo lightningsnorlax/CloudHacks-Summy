@@ -1,0 +1,24 @@
+{
+  "title": [
+    {
+      "point 1": [
+        {
+          "image": "hyundai",
+          "text": "hyundai is a korean automotive manufacturer"
+        }
+      ],
+      "point 2": [
+        {
+          "image": "hyundai logo",
+          "text": "The logo loosely resembles two silhouettes shaking hands. This is a nod to Hyundai's commitment to customer service and teamwork."
+        }
+      ],
+      "point 3": [
+        {
+          "image": "hyundai cars",
+          "text": "The brand is known for producing cars with capable engines, sleek interiors and loads of standard features for the money"
+        }
+      ]
+    }
+  ]
+}
