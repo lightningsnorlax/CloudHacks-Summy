@@ -2,14 +2,50 @@ from pptx import Presentation
 from pptx.util import Inches, Pt, Cm
 from pptx.enum.text import PP_ALIGN
 
-def add_image_slide(slide, image_path, width_cm, height_cm, left_cm, top_cm):
-    left = Cm(left_cm)
-    top = Cm(top_cm)
-    width = Cm(width_cm)
-    height = Cm(height_cm)
+def add_image_slide(slide, image_path, position):
+    if position == 'top_right':
+        image = slide.shapes.add_picture(image_file=image_path,  left=width / 1.9, top=height / 10)
+    elif position == 'middle_left':
+        image = slide.shapes.add_picture(image_file=image_path,  left=width / 7, top=height / 2.9)
+    elif position == 'bottom_right':
+        image = slide.shapes.add_picture(image_file=image_path,  left=width / 1.9, top=height / 1.7)
 
-    image = slide.shapes.add_picture(image_path, left, top, width, height)
     image.z_order = 2
+
+def add_text_box(slide, text_title, text_body, position):
+    if position == 'top_left':
+        textbox = slide.shapes.add_textbox(left=width / 7, top=height / 10, width=Cm(8), height=Cm(1))
+        text_frame = textbox.text_frame
+        text_frame.text = text_title
+
+        textbox = slide.shapes.add_textbox(left=width / 7, top=height / 7, width=Cm(8), height=Cm(5))
+        text_frame = textbox.text_frame
+        text_frame.text = text_body
+
+    elif position == 'middle_right':
+        textbox = slide.shapes.add_textbox(left=width / 2, top=height / 2.9, width=Cm(8), height=Cm(1))
+        text_frame = textbox.text_frame
+        text_frame.text = text_title
+
+        for paragraph in text_frame.paragraphs:
+            paragraph.alignment = PP_ALIGN.RIGHT
+
+        textbox = slide.shapes.add_textbox(left=width / 2, top=height / 2.6, width=Cm(8), height=Cm(5))
+        text_frame = textbox.text_frame
+        text_frame.text = text_body
+
+        for paragraph in text_frame.paragraphs:
+            paragraph.alignment = PP_ALIGN.RIGHT
+
+    elif position == 'bottom_left':
+        textbox = slide.shapes.add_textbox(left=width / 7, top=height / 1.7, width=Cm(8), height=Cm(1))
+        text_frame = textbox.text_frame
+        text_frame.text = text_title
+
+        textbox = slide.shapes.add_textbox(left=width / 7, top=height / 1.58, width=Cm(8), height=Cm(5))
+        text_frame = textbox.text_frame
+        text_frame.text = text_body
+
 
 
 # Create a new presentation
@@ -69,7 +105,20 @@ font.size = Pt(28)  # Change the font size to 28 points
 paragraph.alignment = PP_ALIGN.CENTER
 
 background_image_path = 'Picture1.png'
-add_image_slide(slide, background_image_path, slide_width / 2.54, slide_height / 2.54, 0, 0)
+add_image_slide(slide, background_image_path, "top_right")
+add_image_slide(slide, background_image_path, "middle_left")
+add_image_slide(slide, background_image_path, "bottom_right")
+
+body_text = """Lorem ipsum dolor sit amet, 
+consectetur adipisicing elit. 
+Eius expedita consequatur, 
+necessitatibus neque 
+exercitationem pariatur 
+soluta eligendi quo.
+"""
+add_text_box(slide, text_title='Title', text_body=body_text, position='top_left')
+add_text_box(slide, text_title='Title', text_body=body_text, position='middle_right')
+add_text_box(slide, text_title='Title', text_body=body_text, position='bottom_left')
 
 # Save the presentation to a file
 prs.save('format.pptx')
