@@ -21,3 +21,5 @@ pinecone-client==2.2.1
 jsonlines==2.0.0
 langchain
 pdfplumber
+
+supabase
