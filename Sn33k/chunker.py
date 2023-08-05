@@ -39,7 +39,7 @@ def process_html_files(folder_path):
             file_path = os.path.join(folder_path, html_file)
 
             # Load the HTML content
-            with open(file_path, 'r') as f:
+            with open(file_path, 'r', encoding="utf-8") as f:
                 content = f.read()
 
             # Generate a unique ID based on the file path

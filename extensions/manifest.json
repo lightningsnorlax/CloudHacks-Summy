@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Summy",
+  "author": "Soh Hong Yu",
+  "version": "0.1.0",
+  "description": "Your personal AI companion that helps you summaries pages, pdfs & many more...",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "optional_host_permissions": [
+    "http://*/",
+    "https://*/",
+    "file://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Summy",
+    "default_icon": {
+      "16": "img/Summy.png",
+      "48": "img/Summy.png",
+      "128": "img/Summy.png"
+    }
+  },
+  "icons": {
+    "16": "img/Summy.png",
+    "48": "img/Summy.png",
+    "128": "img/Summy.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
