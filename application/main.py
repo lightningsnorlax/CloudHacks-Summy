@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask import json, jsonify
 import random
 from flask_cors import CORS, cross_origin
-from PIL import Image, ImageOps
 import base64
 import requests
 import numpy as np
