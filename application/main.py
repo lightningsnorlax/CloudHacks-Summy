@@ -24,7 +24,11 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 @main.route('/index')
 @main.route('/home')
 def index():
-    return render_template("index.html")
+    return render_template("/index.html")
+
+@main.route('/question')
+def question():
+    return render_template("/question.html")
 
 
 @main.route("/test")
