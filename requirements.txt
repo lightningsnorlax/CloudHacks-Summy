@@ -12,7 +12,7 @@ python-dotenv
 pyyaml==6.0
 readability-lxml==0.8.1
 requests
-tiktoken==0.3.3
+tiktoken
 gTTS==2.3.1
 docker
 duckduckgo-search
