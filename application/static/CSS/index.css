@@ -1,0 +1,51 @@
+* {
+    color: white;
+}
+
+* {
+    color: white;
+}
+
+body {
+    background-color: #005f73;
+}
+
+#hi {
+    background-color: black;
+}
+
+#welcome {
+    color: black;
+}
+
+.linking-container, .linking-number {
+    background-color: #EE9B00;
+}
+
+.linking-cancel {
+    background-color: #ae2012;
+}
+
+.blue-box {
+    background-color: #0a9396;
+}
+
+#new, #search {
+    background-color: #CA6702;
+}
+
+#sidebar {
+    background-color: #001219;
+}
+
+.w-5\/6 {
+    width: 83.3% !important; 
+}
+
+.computer-reply {
+    background-color: #0a9396;
+}
+
+.user-ask {
+    background-color: #005f73;
+}
