@@ -53,11 +53,13 @@ async function askQuestion(question) {
     <div class="flex items-center gap-2 loading">
       <img src="./img/Summy.png" class="aspect-square w-8 self-end" />
       <div
-        class="w-fit max-w-[75%] bg-gray-300 rounded-[1rem] flex items-center py-2 px-4 min-h-[18px] chatAnswer"
+        class="w-fit max-w-[75%] bg-gray-300 rounded-[1rem] py-2 px-4 min-h-[18px] chatAnswer"
       >
-        <span class="circle bouncing"></span>
-        <span class="circle bouncing"></span>
-        <span class="circle bouncing"></span>
+        <div class="flex items-center ">
+          <span class="circle bouncing"></span>
+          <span class="circle bouncing"></span>
+          <span class="circle bouncing"></span>
+        </div>
       </div>
     </div>`;
   await fetch(`${hostname}/askQn`, {

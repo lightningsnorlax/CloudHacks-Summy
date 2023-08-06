@@ -14,7 +14,7 @@ $("#new").click(() => {
         <p class="text-center align-middle m-2 font-bold text-lg">${parseInt(links.slice(-1))}</p>
     </div>
     <input placeholder="link"
-        class="placeholder:bold placeholder:text-lg placeholder:text-white flex-1 linking-container py-2 px-5 rounded-full ms-5"></input>
+        class="placeholder:bold placeholder:text-lg placeholder:text-white flex-1 linking-container py-2 px-5 rounded-full ms-5 search-link"></input>
     <button class="flex-none ms-4 linking-cancel w-fit py-2 px-4 rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" class="w-8 h-8 stroke-2 my-auto middle-align">
@@ -57,3 +57,4 @@ let cancel = () => {
 }
 
 cancel()
+
