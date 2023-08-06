@@ -1,0 +1,20 @@
+{
+  "body": [
+    {
+      "image": "AI analyzing medical images",
+      "subheading": "Detection of Diseases",
+      "text": "AI-supported systems are being used to detect abnormalities in chest X-rays, mammograms, and CT scans, providing early interventions and potentially better outcomes."
+    },
+    {
+      "image": "AI identifying diabetic damage to the eye",
+      "subheading": "Management of Diabetes",
+      "text": "AI technology can accurately identify diabetic damage to the eye, aiding in the management of diabetes."
+    },
+    {
+      "image": "Lack of institutional policies",
+      "subheading": "Concerns and Recommendations",
+      "text": "There are concerns about the lack of institutional policies to guide healthcare professionals in dealing with AI. The government is urged to set frameworks and policies for responsible AI adoption in healthcare."
+    }
+  ],
+  "title": "AI in Healthcare"
+}

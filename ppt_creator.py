@@ -7,6 +7,8 @@ import io
 from PIL import Image
 import json
 
+import time
+
 
 def add_image_slide(width, height, slide, image_path, position):
     if position == 'top_right':
@@ -191,31 +193,36 @@ def createPowerPoint(jsonObject):
     prompt_list = [body[0]["image"], body[1]["image"], body[2]["image"]]
     image_list = []
 
-    API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+    API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 
     headers = {"Authorization": "Bearer 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"}
 
     def query(payload):
         response = requests.post(API_URL, headers=headers, json=payload)
         return response.content
-    
+
+    pos = ["top_right", "middle_left", "bottom_right"]
+
     for i in range(0, 3):
 
         image_bytes = query({
             "inputs": prompt_list[i],
         })
-
+        # time.sleep(10)
+        print(image_bytes)
         image = Image.open(io.BytesIO(image_bytes))
 
-        output_file = f"/images/output_image{i}.jpg"
+        output_file = f"./images/output_image{i}.jpg"
         image.save(output_file)
-        image_list.append(output_file)
-    
+        # time.sleep(10)
+        print(pos[i])
+        add_image_slide(slide, output_file, pos[i])
+        # image_list.append(output_file)
+
         print(f"Image saved to {output_file}")
 
-    add_image_slide(slide, image_list[0], "top_right")
-    add_image_slide(slide, image_list[1], "middle_left")
-    add_image_slide(slide, image_list[2], "bottom_right")
+    # add_image_slide(slide, image_list[1], "middle_left")
+    # add_image_slide(slide, image_list[2], "bottom_right")
 
     add_text_box(width, height, slide, text_title=body[0]["subheading"],
                  text_body=body[0]["text"], position='top_left')
@@ -228,11 +235,10 @@ def createPowerPoint(jsonObject):
     prs.save('format.pptx')
 
 
- 
 # Opening JSON file
 f = open('ideal_model_output.json')
 print("hi")
- 
+
 hi = json.load(f)
 
 createPowerPoint(hi)
