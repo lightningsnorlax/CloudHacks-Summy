@@ -9,73 +9,105 @@
     <title>Summy</title>
   </head>
   <body>
-    <div class="p-2">
-      <div class="mb-4 border-b border-gray-200">
-        <ul
-          class="flex flex-wrap -mb-px text-sm font-medium text-center justify-center"
-          id="myTab"
-          data-tabs-toggle="#myTabContent"
-          role="tablist"
-        >
-          <li class="mr-2" role="presentation">
-            <button
-              class="inline-block p-4 border-b-2 rounded-t-lg"
-              id="profile-tab"
-              data-tabs-target="#profile"
-              type="button"
-              role="tab"
-              aria-controls="profile"
-              aria-selected="false"
-            >
-              Profile
-            </button>
-          </li>
-          <li class="mr-2" role="presentation">
-            <button
-              class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300"
-              id="dashboard-tab"
-              data-tabs-target="#dashboard"
-              type="button"
-              role="tab"
-              aria-controls="dashboard"
-              aria-selected="false"
-            >
-              Dashboard
-            </button>
-          </li>
-        </ul>
+    <div class="mb-2 border-b border-gray-200">
+      <ul
+        class="flex flex-wrap -mb-px text-sm font-medium text-center justify-center"
+        id="myTab"
+        data-tabs-toggle="#myTabContent"
+        role="tablist"
+      >
+        <li class="mr-2" role="presentation">
+          <button
+            class="inline-block p-4 border-b-2 rounded-t-lg"
+            id="summary-tab"
+            data-tabs-target="#summary"
+            type="button"
+            role="tab"
+            aria-controls="summary"
+            aria-selected="false"
+          >
+            Summary
+          </button>
+        </li>
+        <li class="mr-2" role="presentation">
+          <button
+            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300"
+            id="qa-tab"
+            data-tabs-target="#qa"
+            type="button"
+            role="tab"
+            aria-controls="qa"
+            aria-selected="false"
+            id="chatGPT"
+          >
+            ChatGPT
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div id="myTabContent">
+      <div
+        class="hidden px-4 py-2 rounded-lg max-h-[calc(var(--height)-53.6px-57.6px)]"
+        id="summary"
+        role="tabpanel"
+        aria-labelledby="summary-tab"
+      >
+        <p class="text-base">Here is the summary of the page:</p>
+        <ol class="list-decimal">
+          <li>Singapore is hot</li>
+          <li>Singapore is a lovely country</li>
+          <li>National Day is 9 August</li>
+        </ol>
       </div>
-      <div id="myTabContent">
+      <div
+        class="hidden rounded-lg max-h-[calc(var(--height)-53.6px-57.6px)] min-h-[calc(var(--height)-53.6px-57.6px)]"
+        id="qa"
+        role="tabpanel"
+        aria-labelledby="qa-tab"
+      >
         <div
-          class="hidden p-4 rounded-lg bg-gray-50"
-          id="profile"
-          role="tabpanel"
-          aria-labelledby="profile-tab"
+          class="flex flex-col px-4 py-2 max-h-[calc(var(--height)-53.6px-57.6px)] min-h-[calc(var(--height)-53.6px-57.6px)] overflow-y-auto gap-3"
+          id="chatBody"
         >
-          <p class="text-sm text-gray-500">
-            This is some placeholder content the
-            <strong class="font-medium text-gray-800"
-              >Profile tab's associated content</strong
-            >. Clicking another tab will toggle the visibility of this one for
-            the next. The tab JavaScript swaps classes to control the content
-            visibility and styling.
-          </p>
+          <div class="flex items-center gap-2">
+            <img src="./img/Summy.png" class="aspect-square w-8 self-end" />
+            <div
+              class="w-fit max-w-[75%] bg-gray-300 rounded-[1rem] flex items-center py-2 px-4 min-h-[18px]"
+            >
+              What questions do you have for me?
+            </div>
+          </div>
+          
         </div>
-        <div
-          class="hidden p-4 rounded-lg bg-gray-50"
-          id="dashboard"
-          role="tabpanel"
-          aria-labelledby="dashboard-tab"
-        >
-          <p class="text-sm text-gray-500">
-            This is some placeholder content the
-            <strong class="font-medium text-gray-800"
-              >Dashboard tab's associated content</strong
-            >. Clicking another tab will toggle the visibility of this one for
-            the next. The tab JavaScript swaps classes to control the content
-            visibility and styling.
-          </p>
-        </div>
+        <form class="mt-auto fixed bottom-0 w-full bg-white">
+          <label for="chat" class="sr-only">Your message</label>
+          <div class="flex items-center px-3 py-2 rounded-lg">
+            <textarea
+              id="chat"
+              rows="1"
+              class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Your message..."
+            ></textarea>
+            <button
+              type="button"
+              class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100"
+              id="sendMessage"
+            >
+              <svg
+                class="w-5 h-5 rotate-90"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 18 20"
+              >
+                <path
+                  d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"
+                />
+              </svg>
+              <span class="sr-only">Send message</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 

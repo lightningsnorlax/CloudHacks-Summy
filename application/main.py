@@ -37,7 +37,6 @@ from langchain.chains.openai_functions import (
 from langchain.schema import HumanMessage, AIMessage, ChatMessage
 
 
-
 load_dotenv()
 
 main = Blueprint('main', __name__)
@@ -48,12 +47,13 @@ PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
 INDEX_NAME = os.environ.get("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT = os.environ.get("PINECONE_ENVIRONMENT")
 
+
 pinecone.init(
     api_key=PINECONE_API_KEY,  # find at app.pinecone.io
     environment=PINECONE_ENVIRONMENT,  # next to api key in console
 )
 embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
-index = pinecone.Index(INDEX_NAME) 
+index = pinecone.Index(INDEX_NAME)
 model_name = "gpt-4-0613"
 temperature = 0.0
 llm_qa = ChatOpenAI(model_name=model_name, temperature=temperature)
@@ -95,7 +95,6 @@ commandArr = [
 @main.route("/getSummary", methods=["GET", "POST"])
 def getSummary():
     if request.method == "POST":
-        return jsonify({'message': f'success'})
         if request.json['url']:
             url = request.json['url']
             print(url)
@@ -104,15 +103,26 @@ def getSummary():
                     command = command + " " + url
                 result = subprocess.run(
                     command, shell=True, capture_output=True, text=True, cwd="./Sn33k")
+            print("Summary stored")
+            return jsonify({'message': f'success'})
+        return jsonify({'message': f'invalid url'})
+    return render_template("index.html")
+
+
+@main.route("/askQn", methods=["GET", "POST"])
+def askQuestion():
+    if request.method == "POST":
+        if request.json['question']:
             qa_chain = RetrievalQA.from_chain_type(
                 llm=llm_qa,
                 chain_type="refine",
                 retriever=vectorstore.as_retriever(),
                 # verbose=True,
             )
-            query = "What is happening at Singapore on Saturday?"
+            query = request.json['question']
+            print(query)
             response = qa_chain(query)
-            print(response)
-            return jsonify({'message': f'{response}'})    
+            print(response['result'])
+            return jsonify({'message': "OK", "answer": response['result']})
         return jsonify({'message': f'invalid url'})
     return render_template("index.html")
