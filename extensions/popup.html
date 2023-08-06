@@ -47,19 +47,31 @@
     </div>
     <div id="myTabContent">
       <div
-        class="hidden px-4 py-2 rounded-lg max-h-[calc(var(--height)-53.6px-57.6px)] relative"
+        class="hidden px-4 py-2 rounded-lg max-h-[calc(var(--height)-61.4px)] relative"
         id="summary"
         role="tabpanel"
         aria-labelledby="summary-tab"
       >
-        <p class="text-base">Here is the summary of the page:</p>
-        <ol class="list-decimal">
-          <li>Singapore is hot</li>
-          <li>Singapore is a lovely country</li>
-          <li>National Day is 9 August</li>
-        </ol>
+        <div
+          id="summaryDiv"
+          class="max-h-[calc(var(--height)-61.4px-74px)] min-h-[calc(var(--height)-61.4px-74px)] overflow-y-auto text-base"
+        >
+          <div class="flex justify-center">
+            <span class="circle bouncing"></span>
+            <span class="circle bouncing"></span>
+            <span class="circle bouncing"></span>
+          </div>
+        </div>
+        <div class="flex justify-center mt-4">
+          <button
+            type="button"
+            class="rounded-full outline py-2 px-4 mt-auto mx-auto left-8 right-8 hover:bg-[#f0f0f0] hover:text-blue-500 font-bold text-gray-500"
+          >
+            Generate Poster
+          </button>
+        </div>
       </div>
-      <div><button type="button" class="rounded-full outline p-2 absolute bottom-5 mx-auto left-8 right-8 hover:bg-[#f0f0f0] hover:text-blue-500 font-bold text-gray-500">Generate Poster</button></div>
+
       <div
         class="hidden rounded-lg max-h-[calc(var(--height)-53.6px-57.6px)] min-h-[calc(var(--height)-53.6px-57.6px)]"
         id="qa"
@@ -78,7 +90,6 @@
               What questions do you have for me?
             </div>
           </div>
-          
         </div>
         <form class="mt-auto fixed bottom-0 w-full bg-white">
           <label for="chat" class="sr-only">Your message</label>

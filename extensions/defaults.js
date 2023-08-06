@@ -13,11 +13,13 @@ var config = {
 
 const hostname = "http://localhost:5000/";
 
+var url;
+
 async function getSummary() {
   chrome.tabs.query(
     { active: true, currentWindow: true },
     async function (tabs) {
-      var url = tabs[0].url;
+      url = tabs[0].url;
       console.log(tabs);
       // document.getElementById("url").textContent = url;
       await fetch(`${hostname}/getSummary`, {
@@ -31,7 +33,9 @@ async function getSummary() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          if (data["message"] == "OK") {
+            document.getElementById("summaryDiv").innerHTML = `${data["summary"]}`;
+          }
         })
         .catch((error) => {
           if (error) {
@@ -63,6 +67,7 @@ async function askQuestion(question) {
     },
     body: JSON.stringify({
       question: question,
+      url: url,
     }),
   })
     .then((response) => response.json())
@@ -106,7 +111,7 @@ function sendMessage() {
           class="aspect-square w-8 self-end"
         />
         <div
-          class="w-[75%] max-w-w-[75%] bg-gray-300 rounded-[1rem] flex items-center py-2 px-4"
+          class="w-fit max-w-w-[75%] bg-gray-300 rounded-[1rem] flex items-center py-2 px-4"
         >
           ${chatContent}
         </div>

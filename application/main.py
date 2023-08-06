@@ -18,6 +18,7 @@ from langchain.vectorstores import Pinecone
 from langchain.document_loaders import TextLoader
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA, LLMChain, LLMCheckerChain
+from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import wandb_tracing_enabled
 from langchain.prompts import (
     PromptTemplate,
@@ -34,7 +35,11 @@ from langchain.chains.openai_functions import (
     create_structured_output_chain,
 )
 from langchain.schema import HumanMessage, AIMessage, ChatMessage
+import openai
 
+from langchain.chat_models import ChatOpenAI
+from langchain.document_loaders import WebBaseLoader
+from langchain.chains.summarize import load_summarize_chain
 
 load_dotenv()
 
@@ -45,17 +50,19 @@ PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
 INDEX_NAME = os.environ.get("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT = os.environ.get("PINECONE_ENVIRONMENT")
 
+openai.api_key = OPENAI_API_KEY
 
 pinecone.init(
-    api_key=PINECONE_API_KEY,  # find at app.pinecone.io
-    environment=PINECONE_ENVIRONMENT,  # next to api key in console
+    api_key=PINECONE_API_KEY,
+    environment=PINECONE_ENVIRONMENT,
 )
 embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
 index = pinecone.Index(INDEX_NAME)
-model_name = "gpt-4-0613"
+model_name = "gpt-3.5-turbo-0613"
 temperature = 0.0
 llm_qa = ChatOpenAI(model_name=model_name, temperature=temperature)
 vectorstore = Pinecone(index, embeddings.embed_query, "text")
+
 
 @main.route('/')
 @main.route('/index')
@@ -83,13 +90,13 @@ def getSummary():
         if request.json['url']:
             url = request.json['url']
             print(url)
-            for command in commandArr:
-                if "wget" in command:
-                    command = command + " " + url
-                result = subprocess.run(
-                    command, shell=True, capture_output=True, text=True, cwd="./Sn33k")
-            print("Summary stored")
-            return jsonify({'message': f'success'})
+            loader = WebBaseLoader(url)
+            docs = loader.load()
+
+            chain = load_summarize_chain(llm_qa, chain_type="stuff")
+            summary = chain.run(docs)
+            print(summary)
+            return jsonify({'message': f'OK', "summary": summary})
         return jsonify({'message': f'invalid url'})
     return render_template("index.html")
 
@@ -97,17 +104,33 @@ def getSummary():
 @main.route("/askQn", methods=["GET", "POST"])
 def askQuestion():
     if request.method == "POST":
-        if request.json['question']:
-            qa_chain = RetrievalQA.from_chain_type(
-                llm=llm_qa,
-                chain_type="refine",
-                retriever=vectorstore.as_retriever(),
-                # verbose=True,
-            )
-            query = request.json['question']
-            print(query)
-            response = qa_chain(query)
-            print(response['result'])
-            return jsonify({'message': "OK", "answer": response['result']})
+        if request.json['url']:
+            url = request.json['url']
+            print(url)
+            for command in commandArr:
+                if "wget" in command:
+                    command = command + " " + url
+                result = subprocess.run(
+                    command, shell=True, capture_output=True, text=True, cwd="./Sn33k")
+            print("Summary stored")
+            if request.json['question']:
+                qa_chain = RetrievalQA.from_chain_type(
+                    llm=llm_qa,
+                    chain_type="refine",
+                    retriever=vectorstore.as_retriever(),
+                    # verbose=True,
+                )
+                query = request.json['question']
+                print(query)
+                chainRes = SequentialChain(chains=[qa_chain], input_variables=[
+                    "query"]).run(query=query)
+                return jsonify({'message': "OK", "answer": chainRes})
         return jsonify({'message': f'invalid url'})
+    return render_template("index.html")
+
+
+@main.route("/generatePoster", methods=["POST"])
+def generatePoster():
+    if request.method == "POST":
+        print("hi")
     return render_template("index.html")
