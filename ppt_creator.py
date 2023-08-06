@@ -1,6 +1,7 @@
 from pptx import Presentation
 from pptx.util import Inches, Pt, Cm
 from pptx.enum.text import PP_ALIGN
+from pptx.dml.color import RGBColor
 
 def add_image_slide(slide, image_path, position):
     if position == 'top_right':
@@ -18,9 +19,27 @@ def add_text_box(slide, text_title, text_body, position):
         text_frame = textbox.text_frame
         text_frame.text = text_title
 
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                font = run.font
+                font.bold = True
+                font.name = "Patrick Hand"
+                font.size = Pt(12.5)
+                font.color.rgb = RGBColor(14, 83, 102)
+
+        image = slide.shapes.add_picture(image_file="lightbulb.png",  left=width / 9, top=height / 10)
+        image.z_order = 2
+
         textbox = slide.shapes.add_textbox(left=width / 7, top=height / 7, width=Cm(8), height=Cm(5))
         text_frame = textbox.text_frame
         text_frame.text = text_body
+
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                font = run.font
+                font.name = "Open Sans"
+                font.size = Pt(11.4)
+                font.color.rgb = RGBColor(14, 83, 102)
 
     elif position == 'middle_right':
         textbox = slide.shapes.add_textbox(left=width / 2, top=height / 2.9, width=Cm(8), height=Cm(1))
@@ -30,6 +49,16 @@ def add_text_box(slide, text_title, text_body, position):
         for paragraph in text_frame.paragraphs:
             paragraph.alignment = PP_ALIGN.RIGHT
 
+            for run in paragraph.runs:
+                font = run.font
+                font.bold = True
+                font.name = "Patrick Hand"
+                font.size = Pt(12.5)
+                font.color.rgb = RGBColor(14, 83, 102)
+
+        image = slide.shapes.add_picture(image_file="lightbulb.png",  left=width / 1.13, top=height / 2.9)
+        image.z_order = 2
+
         textbox = slide.shapes.add_textbox(left=width / 2, top=height / 2.6, width=Cm(8), height=Cm(5))
         text_frame = textbox.text_frame
         text_frame.text = text_body
@@ -37,14 +66,38 @@ def add_text_box(slide, text_title, text_body, position):
         for paragraph in text_frame.paragraphs:
             paragraph.alignment = PP_ALIGN.RIGHT
 
+            for run in paragraph.runs:
+                font = run.font
+                font.name = "Open Sans"
+                font.size = Pt(11.4)
+                font.color.rgb = RGBColor(14, 83, 102)
+
     elif position == 'bottom_left':
         textbox = slide.shapes.add_textbox(left=width / 7, top=height / 1.7, width=Cm(8), height=Cm(1))
         text_frame = textbox.text_frame
         text_frame.text = text_title
 
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                font = run.font
+                font.bold = True
+                font.name = "Patrick Hand"
+                font.size = Pt(12.5)
+                font.color.rgb = RGBColor(14, 83, 102)
+
+        image = slide.shapes.add_picture(image_file="lightbulb.png",  left=width / 9, top=height / 1.7)
+        image.z_order = 2
+
         textbox = slide.shapes.add_textbox(left=width / 7, top=height / 1.58, width=Cm(8), height=Cm(5))
         text_frame = textbox.text_frame
         text_frame.text = text_body
+
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                font = run.font
+                font.name = "Open Sans"
+                font.size = Pt(11.4)
+                font.color.rgb = RGBColor(14, 83, 102)
 
 
 
@@ -96,6 +149,14 @@ text_frame = textbox.text_frame
 paragraph = text_frame.add_paragraph()
 run = paragraph.add_run()
 run.text = "Hello, World!"
+
+for paragraph in text_frame.paragraphs:
+    for run in paragraph.runs:
+        font = run.font
+        font.bold = True
+        font.name = "Patrick Hand"
+        font.size = Pt(28)
+        font.color.rgb = RGBColor(14, 83, 102)
 
 # Set font size and style
 font = run.font
