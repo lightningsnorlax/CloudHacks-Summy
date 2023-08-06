@@ -1,0 +1,26 @@
+{
+  "title": "MeshSegNet vs MPCNet",
+  "description": "How is MPCNet different from Meshsegnet",
+  "type": "object",
+  "properties": {
+    "list_of_points": {
+      "type": "array",
+      "description": "List of points to be included in the summary, it is a dictionary with keys: 1. image  2. text",
+      "items": {
+        "type": "object"
+      },
+      "properties": {
+        "image": {
+          "type": "string",
+          "description": "A description of the image, should be specific"
+        },
+        "text": {
+          "type": "string",
+          "description": "Informative and concisive summary on the article provided about the point"
+        }
+      },
+      "required": ["image", "text"]
+    }
+  },
+  "required": ["list_of_points"]
+}
