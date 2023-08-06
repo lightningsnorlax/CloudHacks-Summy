@@ -146,7 +146,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 document
   .getElementById("generatePoster")
-  .addEventListener("click", async (e) => {});
+  .addEventListener("click", async (e) => {
+    generatePoster();
+  });
 
 async function generatePoster() {
   await fetch(`${hostname}/generatePoster`, {
@@ -157,5 +159,22 @@ async function generatePoster() {
     body: JSON.stringify({
       url: url,
     }),
-  }).then((response) => response.json());
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      downloadURL =
+        "https://cdn.discordapp.com/attachments/910885868733087747/1137658234979749929/AI_in_Healthcare.pptx";
+      const a = document.createElement("a");
+      a.href = downloadURL;
+      a.download = downloadURL.split("/").pop();
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    })
+    .catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
 }
