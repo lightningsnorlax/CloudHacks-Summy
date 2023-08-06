@@ -36,7 +36,7 @@ async function getSummary() {
           if (data["message"] == "OK") {
             document.getElementById(
               "summaryDiv"
-            ).innerHTML = `${data["summary"]}`;
+            ).innerHTML = `<p class="mb-3">${data["summary"].split(".").join(`</p><p class="mb-3">`)}</p>`;
           }
         })
         .catch((error) => {

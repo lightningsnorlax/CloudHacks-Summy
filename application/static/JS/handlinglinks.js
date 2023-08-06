@@ -1,10 +1,8 @@
 const hostname = "http://localhost:5000/";
 
 async function getSummary(urlinput) {
-
     var url = urlinput;
-    // document.getElementById("url").textContent = url;
-    await fetch(`${hostname}/getSummary`, {
+    return fetch(`${hostname}/getSummary`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -13,18 +11,15 @@ async function getSummary(urlinput) {
             url: url,
         }),
     })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            return data
-        })
-        .catch((error) => {
-            if (error) {
-                console.log(error);
-            }
-        });
-
-
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        return data;
+    })
+    .catch((error) => {
+        console.log(error);
+        throw error; // Rethrow the error so it can be handled in the calling function if needed.
+    });
 }
 
 async function onLoad() {
@@ -44,18 +39,28 @@ function validURL(str) {
 
 $("#form-links").on("submit", async (e) => {
     e.preventDefault()
-    console.log($(".search-link"))
-    var link_list = []
+    var link_list = [];
+    var fetchPromises = [];
+
     for (var i of $(".search-link")) {
-        console.log(i)
         var urlLink = $(i).val();
         if (validURL(urlLink)) {
-            summary = await getSummary(urlLink)
-            console.log(summary)
-            link_list.push({link: urlLink})
-        } 
-        
+            fetchPromises.push(getSummary(urlLink));
+            link_list.push({ link: urlLink });
+        }
     }
-    localStorage.setItem("links", `${JSON.stringify(link_list)}`);
-    $("#insert-summary").html(summary)
-})
+
+    for (var i = 0; i < link_list.length; i++) {
+        try {
+            const summaries = await Promise.all(fetchPromises);
+            console.log(summaries[i]["summary"]);
+            console.log(link_list[i]["link"]);
+            localStorage.setItem("links", JSON.stringify(link_list));
+            $("#insert-summary").append(`<h2 class="mb-1 font-bold">${link_list[i]["link"]}</h2><p class="mb-5">${summaries[i]["summary"]}</p>`); // Assuming summaries is an array of strings.
+        } catch (error) {
+            console.error(error);
+            // Handle the error if needed.
+        }
+    }
+    
+});
