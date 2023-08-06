@@ -60,7 +60,7 @@ embeddings = OpenAIEmbeddings(model='text-embedding-ada-002')
 index = pinecone.Index(INDEX_NAME)
 model_name = "gpt-3.5-turbo-0613"
 temperature = 0.0
-llm_qa = ChatOpenAI(model_name=model_name, temperature=temperature)
+llm = ChatOpenAI(model_name=model_name, temperature=temperature)
 vectorstore = Pinecone(index, embeddings.embed_query, "text")
 
 
@@ -93,7 +93,7 @@ def getSummary():
             loader = WebBaseLoader(url)
             docs = loader.load()
 
-            chain = load_summarize_chain(llm_qa, chain_type="stuff")
+            chain = load_summarize_chain(llm, chain_type="refine")
             summary = chain.run(docs)
             print(summary)
             return jsonify({'message': f'OK', "summary": summary})
@@ -115,7 +115,7 @@ def askQuestion():
             print("Summary stored")
             if request.json['question']:
                 qa_chain = RetrievalQA.from_chain_type(
-                    llm=llm_qa,
+                    llm=llm,
                     chain_type="refine",
                     retriever=vectorstore.as_retriever(),
                     # verbose=True,
@@ -132,5 +132,71 @@ def askQuestion():
 @main.route("/generatePoster", methods=["POST"])
 def generatePoster():
     if request.method == "POST":
-        print("hi")
+        if request.json['url']:
+            url = request.json['url']
+            print(url)
+            loader = WebBaseLoader(url)
+            docs = loader.load()
+            json_schema = {
+                "title": "Title of Poster",
+                "description": "Poster Topic Summarised",
+                "type": "object",
+                "properties": {
+                    "list_of_points": {
+                        "type": "array",
+                        "description": "List of points to be included in the summary, it is a dictionary with keys: 1. image  2. text",
+                        "items": {
+                            "type": "object"
+                        },
+                        "properties": {
+                            "subheading": {
+                                "type": "string",
+                                "description": "Title of the text paragraph"
+                            },
+                            "image": {
+                                "type": "string",
+                                "description": "A description of the image, should be specific"
+                            },
+                            "text": {
+                                "type": "string",
+                                "description": "Informative and concisive summary on the article provided about the point"
+                            }
+                        },
+                        "required": ["image", "text", "subheading"]
+                    }
+                },
+                "required": ["list_of_points"]
+            }
+
+            summary_chain = load_summarize_chain(
+                llm, chain_type="stuff")
+            post_template = PromptTemplate(
+                template="""Goal:Generate a summary poster based on custom knowledge base (Information below) and user query. Two components 1.Poster assets descriptions 2.Poster content.\n\n------------------Custom knowledge base:------------------\n{query}\n------------------End of Custom Knowledge base.------------------\nExample Format output: dict(
+                "title": "Title of poster",
+                "list_of_points":[
+                dict(
+                    "subheading": "subheading description1",
+                    "image": "image description1...",
+                    "text": "text description1"
+                ),
+                dict(
+                    "subheading": "subheading description2",
+                    "image": "image description2...",
+                    "text": "text description2"
+                ),
+                dict(
+                    "subheading": "subheading description3",
+                    "image": "image description3...",
+                    "text": "text description3"
+                ),
+                ]
+            )\n\nUsing the above information in Custom knowledge base, generate a poster content that summarises the information""",
+                input_variables=["query"],
+                validate_template=False
+            )
+            post_chain = create_structured_output_chain(
+                json_schema, llm, post_template, verbose=True)
+            chainRes = SequentialChain(chains=[post_chain], input_variables=[
+                                       "query"]).run(query=summary_chain.run(docs))
+            return jsonify({'message': f'OK', "chain": chainRes})
     return render_template("index.html")

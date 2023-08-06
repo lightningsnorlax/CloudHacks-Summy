@@ -34,7 +34,9 @@ async function getSummary() {
         .then((response) => response.json())
         .then((data) => {
           if (data["message"] == "OK") {
-            document.getElementById("summaryDiv").innerHTML = `${data["summary"]}`;
+            document.getElementById(
+              "summaryDiv"
+            ).innerHTML = `${data["summary"]}`;
           }
         })
         .catch((error) => {
@@ -141,3 +143,19 @@ onLoad();
 document.addEventListener("DOMContentLoaded", function (event) {
   scrollBottom();
 });
+
+document
+  .getElementById("generatePoster")
+  .addEventListener("click", async (e) => {});
+
+async function generatePoster() {
+  await fetch(`${hostname}/generatePoster`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      url: url,
+    }),
+  }).then((response) => response.json());
+}
