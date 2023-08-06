@@ -2,40 +2,20 @@
   "title": "hyundai automotive company",
   "body": [
     {
-      "point 1": [
-        {
-          "image": "hyundai",
-          "text": "hyundai is a korean automotive manufacturer"
-        }
-      ],
-      "point 2": [
-        {
-          "image": "hyundai logo",
-          "text": "The logo loosely resembles two silhouettes shaking hands. This is a nod to Hyundai's commitment to customer service and teamwork."
-        }
-      ],
-      "point 3": [
-        {
-          "image": "hyundai cars",
-          "text": "The brand is known for producing cars with capable engines, sleek interiors and loads of standard features for the money"
-        }
-      ]
-    }
-  ]
-}
-
-{
-  "title": "",
-  "body": [
-    {
-      "subheading": "point",
-      "image": "",
-      "text": ""
+      "subheading": "hyundai",
+      "image": "hyundai",
+      "text": "hyundai is a korean automotive manufacturer"
     },
     {
-      "subheading": "point",
-      "image": "",
-      "text": ""
+      "subheading": "hyundai log",
+      "image": "hyundai log",
+      "text": "The logo loosely resembles two silhouettes shaking hands. This is a nod to Hyundai's commitment to customer service and teamwork."
+    },
+    {
+      "subheading": "hyundai cars",
+      "image": "hyundai cars",
+      "text": "The brand is known for producing cars with capable engines, sleek interiors and loads of standard features for the money"
     }
   ]
+
 }
