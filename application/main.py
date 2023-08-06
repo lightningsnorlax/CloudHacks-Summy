@@ -7,7 +7,6 @@ import requests
 import numpy as np
 import re
 import datetime
-from supabase import create_client, Client
 from dotenv import load_dotenv
 import os
 import subprocess
@@ -40,8 +39,7 @@ from langchain.schema import HumanMessage, AIMessage, ChatMessage
 load_dotenv()
 
 main = Blueprint('main', __name__)
-SUPABASE_URL = os.environ.get('SUPABASE_URL')
-SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
+
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 PINECONE_API_KEY = os.environ.get("PINECONE_API_KEY")
 INDEX_NAME = os.environ.get("PINECONE_INDEX_NAME")
@@ -59,10 +57,6 @@ temperature = 0.0
 llm_qa = ChatOpenAI(model_name=model_name, temperature=temperature)
 vectorstore = Pinecone(index, embeddings.embed_query, "text")
 
-
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-
 @main.route('/')
 @main.route('/index')
 @main.route('/home')
@@ -73,15 +67,6 @@ def index():
 @main.route('/question')
 def question():
     return render_template("/question.html")
-
-
-@main.route("/test")
-def test():
-    response = supabase.table('user').select("*").execute()
-    print(response)
-    return render_template("index.html")
-
-# @main.route("/sendMessage")
 
 
 commandArr = [
