@@ -16,6 +16,7 @@ async function getSummary(urlinput) {
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
+            return data
         })
         .catch((error) => {
             if (error) {
@@ -49,10 +50,12 @@ $("#form-links").on("submit", async (e) => {
         console.log(i)
         var urlLink = $(i).val();
         if (validURL(urlLink)) {
-            getSummary(urlLink)
+            summary = await getSummary(urlLink)
+            console.log(summary)
             link_list.push({link: urlLink})
         } 
         
     }
     localStorage.setItem("links", `${JSON.stringify(link_list)}`);
+    $("#insert-summary").html(summary)
 })
