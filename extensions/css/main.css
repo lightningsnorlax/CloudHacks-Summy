@@ -12,6 +12,7 @@ body {
   max-width: var(--width);
   min-height: var(--height);
   max-height: var(--height);
+  padding: 10px;
 }
 
 .circle {
